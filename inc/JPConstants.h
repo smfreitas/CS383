@@ -174,6 +174,7 @@ namespace consts
 	const int GREEN = 4; /** The light is green */
 	const int LEFT_GREEN = 8; /** The left arrow is green */
 	const int LEFT_BLINK_YELLOW = 16; /** The left arrow is flashing yellow */
+	const int LEFT_SOLID_YELLOW = 32; /** The left arrow is solid yellow */
 
 	/**
 	 * \Brief a simple portable test report function.

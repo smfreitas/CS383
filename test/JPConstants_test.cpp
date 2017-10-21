@@ -197,6 +197,12 @@ int lightColorsBitFieldCheck()
 	//check against LEFT_BLINK_YELLOW
 	if( (sumField | consts::LEFT_BLINK_YELLOW) == sumField)
 		return 1;
+	sumField += consts::LEFT_BLINK_YELLOW;
+
+
+	//check against LEFT_BLINK_YELLOW
+	if( (sumField | consts::LEFT_SOLID_YELLOW) == sumField)
+		return 1;
 
 	return 0;
 }

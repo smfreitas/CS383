@@ -45,8 +45,15 @@ JJbuildTest:
 JJallTest: 
 
 #Lane
-#LinkedList
-#EngineInterface
+JPLane.o: src/james/JPLane.cpp inc/JPConstants.h
+	$(CPP) $(CPPFLAGS) -c src/james/SFCar.cpp #get rid of this when the real car is here
+	$(CPP) $(CPPFLAGS) -c src/james/JPLane.cpp
+
+test/JPLane_test.exe: JPLane.o  test/JPLane_test.cpp
+	$(CPP) $(CPPFLAGS) JPLane.o test/JPLane_test.cpp  $(LIBS) -o test/JPLane_test
+	
+JPLtest: test/JPLane_test.exe
+	test/JPLane_test.exe
 
 #Simulation Engine
 JPSimulationEngine.o: src/james/JPSimulationEngine.cpp inc/jpconstants.h inc/JPTrafficModel.h JPTrafficModel.o
