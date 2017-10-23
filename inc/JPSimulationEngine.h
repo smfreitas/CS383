@@ -8,6 +8,9 @@
 #ifndef JPSIMULATIONENGINE_H_
 #define JPSIMULATIONENGINE_H_
 #include "JPConstants.h"
+#include "JPLane.h"
+#include "JPIntersection.h"
+#include "../src/james/SFCar.h"
 
 class JPSimulationEngine {
 public:
@@ -32,17 +35,20 @@ private:
 
 	//Internal Constants
 	const double turnSpeed = 20;
-	const double straightSpeed = 20;
+	//const double straightSpeed = 20;
 	const double reactionTime= 0.25;
 
 	//Running Variables
 	double _time;
 	bool _paused;
-	long _throughput[4][MAX_LANES_MACRO];
+	//long _throughput[4][MAX_LANES_MACRO];
 	double _nextCreationTime[4];
 
 	//Internal Methods
 	void run();
+	double intersectionDeceleration(double pos, double speed, double pcPos, double pcSpeed, SFCar *car);
+	//double carDeceleration();
+	void processLane(JPLane *lane);
 
 	//void chooseLane(Car car, int direction,Lane lanes[][])
 

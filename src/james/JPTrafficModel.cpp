@@ -6,7 +6,7 @@
  */
 
 #include "../../inc/JPTrafficModel.h"
-#include "../../inc/JPConstants.h"
+#include "../../inc/JPIntersection.h"
 
 JPTrafficModel::JPTrafficModel()
 {
@@ -22,10 +22,10 @@ void JPTrafficModel::setProbability(int direction, double left, double right, do
 void JPTrafficModel::setTrafficRate(int direction, double rate)
 {
 	//if(rate <= 0 || rate > 2000)
-	if(consts::NORTH == direction ||
-			consts::SOUTH == direction ||
-			consts::EAST == direction ||
-			consts::WEST == direction)
+	if(JPIntersection::NORTH == direction ||
+			JPIntersection::SOUTH == direction ||
+			JPIntersection::EAST == direction ||
+			JPIntersection::WEST == direction)
 		_rate = rate;
 	//else do error things
 }

@@ -15,7 +15,7 @@ public:
 	 * \brief Set the relative probability that a car entering from the given direction
 	 * will want to turn right, turn left or go straight
 	 *
-	 * \param direction The direction the car is going or side of the intersection being entered (e.g. consts::NORTH or consts::SOUTH)
+	 * \param direction The direction the car is going or side of the intersection being entered (e.g. JPIntersection::NORTH or JPIntersection::SOUTH)
 	 * \param left The relative probability of a car wanting to turn left
 	 * \param right The relative probability of a car wanting to turn right
 	 * \param straight The relative probability of a car wanting to go straight
@@ -27,7 +27,7 @@ public:
 	/**
 	 * \brief Sets the rate that cars will be introduced for the given direction.
 	 *
-	 * \param direction The direction the car is going or side of the intersection being entered (e.g. consts::NORTH or consts::SOUTH)
+	 * \param direction The direction the car is going or side of the intersection being entered (e.g. JPIntersection::NORTH or JPIntersection::SOUTH)
 	 * \param rate The rate at which cars enter in cars per hour.
 	 */
 	void setTrafficRate(int direction, double rate);
@@ -35,8 +35,8 @@ public:
 	/**
 	 * \brief Returns the time till the next car and sets its turn direction.
 	 *
-	 * \param The direction the car is going or side of the intersection being entered (e.g. consts::NORTH or consts::SOUTH)
-	 * \param turnDirection A variable for storing the desired turn direction. This value will be set to consts::RIGHT, consts::LEFT or consts::STRAIGHT.
+	 * \param direction The direction the car is going or side of the intersection being entered (e.g. JPIntersection::NORTH or JPIntersection::SOUTH)
+	 * \param turnDirection A variable for storing the desired turn direction. This value will be set to JPIntersection::RIGHT, JPIntersection::LEFT or JPIntersection::STRAIGHT.
 	 * \return the amount of time until the next car enters a lane going the given direction
 	 */
 	double getNextTiming(int direction, int &turnDirection);

@@ -30,10 +30,19 @@ void JPSimulationEngine::start()
 {
 
 }
+
 void JPSimulationEngine::pause()
 {
-
 }
+
+void JPSimulationEngine::step()
+{
+}
+
+void JPSimulationEngine::step(double sec)
+{
+}
+
 /*
 double* JPSimulationEngine::getThroughput(int direction, int &laneCount)
 {
@@ -45,4 +54,14 @@ double* JPSimulationEngine::getThroughput(int direction, int &laneCount)
 void JPSimulationEngine::run()
 {
 
+}
+
+double JPSimulationEngine::intersectionDeceleration(double pos, double speed,
+		double pcPos, double pcSpeed, SFCar* car)
+{
+	return 0.0;
+}
+
+void JPSimulationEngine::processLane(JPLane* lane)
+{
 }
