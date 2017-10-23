@@ -8,7 +8,11 @@
 #ifndef SRC_JAMES_JPINTERSECTIONGRID_H_
 #define SRC_JAMES_JPINTERSECTIONGRID_H_
 #include "SFCar.h"
+#include "JPIntersection.h"
 
+/**
+ * \brief A grid representation of the inside of the intersection used for determining cross-directional interference.
+ */
 class JPIntersectionGrid {
 public:
 	JPIntersectionGrid();
@@ -21,7 +25,16 @@ public:
 	 * 	a positive value of required deceleration if the car must slow down
 	 * 	a negative value of the maximum allowable acceleration if the car can speed up but the lane is not entirely clear
 	 */
-	double checkPath(int direction, int lane, SFCar)
+	double checkPath(int direction, int lane, SFCar &car);
+	void setup(JPIntersection inters);
+	void clearRow(int direction, int lane); //reset row at the beginning of processing a new lane
+	void addCar(int direction, int lane, SFCar &car);
+
+private:
+	SFCar *_NorthSouthGrid[MAX_LANES_MACRO][MAX_LANES_MACRO][2];
+	SFCar *_EastWestGrid[MAX_LANES_MACRO][MAX_LANES_MACRO][2];
+	double _offsets[4];
+	int _numLanes[4];
 };
 
 #endif /* SRC_JAMES_JPINTERSECTIONGRID_H_ */

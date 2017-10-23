@@ -21,11 +21,24 @@
  *
  * This class is NOT THREAD SAFE. Due to the use of the iterator, only one thread
  * should access an instance of this class at a given time.
+ *
+ * Usage:
+ * \code{cpp}
+ * SFCar *car;
+ * lane->resetToFirstCar();
+ * while(0 != (car = lane->getNextCar()) )
+ * {
+ * 	//do stuff with car
+ * }
+ * \endcode
  */
 class JPLane
 {
 public:
-	JPLane();
+	/**
+	 * Create a lane with turnOptions
+	 */
+	JPLane(int turnOptions, int leftTarget, int rightTarget);
 
 	/**
 	 * \brief resets the iterator back to the first car.
@@ -105,6 +118,10 @@ public:
 private:
 	//_iterator
 	bool _renderFlagged;
+
+	int _leftTarget;
+	int _rightTarget;
+	int _turnOptions;
 };
 
 #endif /* SRC_JAMES_JPLANE_H_ */

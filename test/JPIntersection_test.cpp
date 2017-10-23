@@ -4,14 +4,32 @@
  *  Created on: Oct 21, 2017
  *      Author: james
  */
-
+#include "../inc/JPIntersectionExceptions.h"
 #include "../inc/JPIntersection.h"
 #include "../inc/JPConstants.h"
 
+#define JPEXCEPTION_REPLACE_ME JPMalformedIntersectionException
+
+//checks of constants
 int directionIterationCheck();
 int directionOppositeCheck();
 int laneDirectionBitFieldCheck();
 int directionAndBoundOppositeCheck();
+
+//error checks
+int addingAfterFinalizedCheck();
+int multipleIntersectionCheck();
+int laneCollidesWithOncomingLaneCheck();
+int twoLanesTurningToOneCheck();
+int laneOffsetMismatchCheck();
+int turningLaneCrossingStraightLaneCheck();
+int laneNumberOutOfBoundsCheck();
+int directionOutOfBoundsCheck();
+int addingAfterFinalized();
+
+
+//functionality
+int addLanesCheck();
 
 int main()
 {
@@ -37,45 +55,45 @@ int main()
 	//the following functions test to make sure exceptions are thrown when they shoudl be
 	ret = consts::testOuptut(
 			"JPIntersection: Lane Collides With Oncoming Lane Error",
-			1);
+			laneCollidesWithOncomingLaneCheck() );
 
 	ret = consts::testOuptut(
 			"JPIntersection: Two Lanes Turning to One Error",
-			1);
+			twoLanesTurningToOneCheck() );
 
 	ret = consts::testOuptut(
 				"JPIntersection: Lane Offset Mismatch Error",
-				1);
+				laneOffsetMismatchCheck() );
 
 	ret = consts::testOuptut(
 				"JPIntersection: Turning Lane Crossing Straight Lane Error",
-				1);
+				turningLaneCrossingStraightLaneCheck() );
 
 	ret = consts::testOuptut(
 				"JPIntersection: Lane Number Out of Bounds Error",
-				1);
+				laneNumberOutOfBoundsCheck() );
 
 	ret = consts::testOuptut(
 				"JPIntersection: Lane Direction Out of Bounds Error",
-				1);
+				directionOutOfBoundsCheck() );
 
 	ret = consts::testOuptut(
 				"JPIntersection: Missing Lanes Error",
-				1);
+				multipleIntersectionCheck() );
 
 	ret = consts::testOuptut(
 				"JPIntersection: Adding After Finalized Error",
-				1);
+				addingAfterFinalizedCheck() );
 
 	//this method verifies that lanes are correctly added and retrieved
 	ret = consts::testOuptut(
-				"Adding Lanes Test",
-				1);
+				"JPIntersection: Adding Lanes Test",
+				addLanesCheck() );
 
 	/*blank
 	ret = consts::testOuptut(
-			"JPIntersection: ",
-			Check());
+			"JPSimulationEngine: ",
+			);
 */
 
 	if( 100 == ret ) { printf("This is just here to suppress non-use warnings"); }
@@ -193,6 +211,12 @@ int laneDirectionBitFieldCheck()
 		return 1;
 	sumField += JPIntersection::RIGHT;
 
+
+	//check against left
+	if( ((sumField | JPIntersection::LEFT) == sumField) &&
+			((sumField & JPIntersection::LEFT) == 0))
+		return 1;
+/*
 	//check against LOSO
 	if( ((sumField | JPIntersection::LEFT_ON_SIGNAL_ONLY) == sumField) &&
 			((sumField & JPIntersection::LEFT_ON_SIGNAL_ONLY) == 0))
@@ -203,8 +227,139 @@ int laneDirectionBitFieldCheck()
 	if( ((sumField | JPIntersection::LEFT_NO_SIGNAL) == sumField) &&
 			((sumField & JPIntersection::LEFT_NO_SIGNAL) == 0))
 		return 1;
-
+*/
 	return 0;
 }
 
+inline int addingAfterFinalizedCheck()
+{
+	try
+	{
+		//bad news if you made it here
+		return 1;
+	}
+	catch(JPEXCEPTION_REPLACE_ME & e)
+	{
+		//some checks on output
+		return 0;
+	}
+}
 
+inline int multipleIntersectionCheck()
+{
+	try
+	{
+		//bad news if you made it here
+		return 1;
+	}
+	catch(JPEXCEPTION_REPLACE_ME & e)
+	{
+		//some checks on output
+		return 0;
+	}
+
+}
+
+inline int laneCollidesWithOncomingLaneCheck()
+{
+	try
+	{
+		//bad news if you made it here
+		return 1;
+	}
+	catch(JPEXCEPTION_REPLACE_ME & e)
+	{
+		//some checks on output
+		return 0;
+	}
+
+}
+
+inline int twoLanesTurningToOneCheck()
+{
+	try
+	{
+		//bad news if you made it here
+		return 1;
+	}
+	catch(JPEXCEPTION_REPLACE_ME & e)
+	{
+		//some checks on output
+		return 0;
+	}
+}
+
+inline int laneOffsetMismatchCheck()
+{
+	try
+	{
+		//bad news if you made it here
+		return 1;
+	}
+	catch(JPEXCEPTION_REPLACE_ME & e)
+	{
+		//some checks on output
+		return 0;
+	}
+
+}
+
+inline int turningLaneCrossingStraightLaneCheck()
+{
+	try
+	{
+		//bad news if you made it here
+		return 1;
+	}
+	catch(JPEXCEPTION_REPLACE_ME & e)
+	{
+		//some checks on output
+		return 0;
+	}
+
+}
+
+inline int laneNumberOutOfBoundsCheck()
+{
+	try
+	{
+		//bad news if you made it here
+		return 1;
+	}
+	catch(JPEXCEPTION_REPLACE_ME & e)
+	{
+		//some checks on output
+		return 0;
+	}
+}
+
+inline int directionOutOfBoundsCheck()
+{
+	try
+	{
+		//bad news if you made it here
+		return 1;
+	}
+	catch(JPEXCEPTION_REPLACE_ME & e)
+	{
+		//some checks on output
+		return 0;
+	}
+}
+
+inline int addingAfterFinalized()
+{
+	try
+	{
+		//bad news if you made it here
+		return 1;
+	}
+	catch(JPEXCEPTION_REPLACE_ME & e)
+	{
+		//some checks on output
+		return 0;
+	}
+}
+
+inline int addLanesCheck() {
+}

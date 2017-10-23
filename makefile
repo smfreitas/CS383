@@ -46,11 +46,12 @@ JJallTest:
 
 #Intersection
 JPIntersection.o: src/james/JPIntersection.cpp inc/JPConstants.h inc/JPLane.h inc/JPIntersection.h
-	$(CPP) $(CPPFLAGS) -c src/james/SFCar.cpp #get rid of this when the real car is here
+	$(CPP) $(CPPFLAGS) -c src/james/SFCar.cpp #get rid of this when the real car is here	
+	$(CPP) $(CPPFLAGS) -c src/james/JPIntersectionExceptions.cpp									
 	$(CPP) $(CPPFLAGS) -c src/james/JPIntersection.cpp
 
 test/JPIntersection_test.exe: JPLane.o  test/JPIntersection_test.cpp JPIntersection.o
-	$(CPP) $(CPPFLAGS) JPLane.o JPIntersection.o test/JPIntersection_test.cpp  $(LIBS) -o test/JPIntersection_test
+	$(CPP) $(CPPFLAGS) JPLane.o JPIntersection.o JPIntersectionExceptions.o test/JPIntersection_test.cpp  $(LIBS) -o test/JPIntersection_test
 	
 JPItest: test/JPIntersection_test.exe
 	test/JPIntersection_test.exe

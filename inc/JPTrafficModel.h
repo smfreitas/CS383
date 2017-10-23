@@ -8,6 +8,23 @@
 #ifndef SRC_JAMES_TRAFFICMODEL_H_
 #define SRC_JAMES_TRAFFICMODEL_H_
 
+/**
+ * \brief Generates entry timing and direction of new cars.
+ *
+ * This class is used to determine when new cars are added to the model, and what direction they will go.
+ * For each direction the rate in cars per hour is specified as is the probability  for eache direction.
+ * The probabilities are relative so they do not need to add up to 100.
+ *
+ * Usage is as follows:
+ * \code{cpp}
+ * JPTrafficModel = *model;
+ * model = new JPTrafficModel;
+ * model->setProbability(Intersection::NORTH, 20, 20, 60);
+ * model->setProbability(Intersection::SOUTH, 15, 20, 60);
+ * model->setProbability(Intersection::EAST, 20, 15, 60);
+ * model->setProbability(Intersection::WEST, 20, 20, 70);
+ * \endcode
+ */
 class JPTrafficModel {
 public:
 	JPTrafficModel();

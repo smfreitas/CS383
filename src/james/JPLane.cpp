@@ -7,9 +7,12 @@
 
 #include "../../inc/JPLane.h"
 
-JPLane::JPLane()
+JPLane::JPLane(int turnOptions, int leftTarget, int rightTarget)
 {
 	_renderFlagged = false;
+	_leftTarget = leftTarget;
+	_rightTarget = rightTarget;
+	_turnOptions = turnOptions;
 
 }
 

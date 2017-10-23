@@ -8,15 +8,31 @@
 #ifndef SRC_JAMES_JPINTERSECTION_H_
 #define SRC_JAMES_JPINTERSECTION_H_
 #include "JPLane.h"
+
 /**
  * \brief A class that serves as a container and validator for an intersection.
  *
  * Usage: Setup
+ * Consider the following intersection.
+ * \image html Intersection1.png "A sample intersection"
+ * Here there are three soutbound lanes. The first can go either right or straight and the second can only go straight. The third is a left turn lane that is signal based. Drivers must wait for a green turn arrow or a flashing yellow turn arrow and a break in traffic. The northbound lanes are a mirror image of the southbound lanes.
+ * There are two eastbound lanes the first can go either right or straight. The second is a left turn only. Here drivers must wait for break in traffic.
  * \code{cpp}
- * Intersection *intersection;
- * intersection = new Intersection();
+ * JPIntersection *intersection;
+ * intersection = new JPIntersection();
  *
+ *	//setup the intersection details
+ *	setTrackedEntryDistance(2640, 2640, 2640, 2640); //track cars for a half mile before center if the intersection
+ *	setTrackedExitDistance(600,600); //track cars for 200 yards past the center of the intersection
  *
+ *	//add the individual lanes
+ *	//addLane(int direction, int position, int turnOptions, int leftTarget, int rightTarget);
+ *	addLane(, , , ,);
+ *	addLane(Intersection::SOUTHBOUND, 0, Intersection::RIGHT + Intersection::STRAIGHT , 0, 0); //Lane in the first position can go either straight or right into the first WESTBOUND lane
+ *	addLane(Intersection::SOUTHBOUND, 1, Intersection::STRAIGHT, 0, 0); //Lane in the second position can only go straight. Right and left targets will be ignored
+ *	addLane(Intersection::SOUTHBOUND, 2, Intersection::LEFT_ON_SIGNAL_ONLY, 1,0); // Lane only turns left and requires a signal. Left turns will enter the second eastbound lane
+ *	addLane(, , , ,);
+ *	addLane(, , , ,);
  * //this aligns the intersection so that the NORTH/SOUTH lanes are offset by two
  * //lane widths and EAST/WEST lanes are offset by 2 lane widths.
  * //i.e. the the northwest corner is 2.5 lane widths
@@ -30,7 +46,7 @@
  * //initialize or acquire intersection object...
  * int direction, laneNum;
  * int laneCounts[4];
- * Lane *lane;
+ * JPLane *lane;
  *
  * intersection->getLaneCounts(laneCounts);
  * for(direction = 0; direction < 4; direction++)
@@ -47,10 +63,10 @@ class JPIntersection {
 public:
 	//CONSTANT MEMBERS FOR INTERCLASS COMMUNICATION
 	/**
-	 * \brief The maximum number of lanes supported. Presently 6.
-	 *
-	 * This is used in addition to the const value for instances where it is necessary to hard code the value such as
-	 * statically defined allocated arrays.
+	* \brief The maximum number of lanes supported. Presently 6.
+	*
+	* This is used in addition to the const value for instances where it is necessary to hard code the value such as
+	* statically defined allocated arrays.
 	 */
 	#define MAX_LANES_MACRO 6
 
@@ -59,7 +75,7 @@ public:
 	 *
 	 * This is synonymous with the value in MAX_LANES_MACRO.
 	 */
-	static const int MAX_LANES = MAX_LANES_MACRO;
+	static const int MAX_LANES = MAX_LANES_MACRO; //this macro is defined in the grid class
 
 	/**
 	 * \brief The width of the lane in feet (10).
@@ -73,20 +89,27 @@ public:
 	/**
 		 * \brief Designates  a lane that permits going straight.
 		 *
-		 * Lane turn directions can be added Initializing a lane with (JPIntersection::STRAIGHT + JPIntersection::RIGHT)
+		 * Lane turn directions can be added. Initializing a lane with (JPIntersection::STRAIGHT + JPIntersection::RIGHT)
 		 * will allow cars in that lane to go either straight or right.
 		 */
 	static const int STRAIGHT = 1;
 
 		/**
-		 * \brief Designates a lane that permits left turns.
+		 * \brief Designates a lane that permits right turns.
 		 *
-		 * Lane turn directions can be added Initializing a lane with (JPIntersection::STRAIGHT + JPIntersection::RIGHT)
+		 * Lane turn directions can be added. Initializing a lane with (JPIntersection::STRAIGHT + JPIntersection::RIGHT)
 		 * will allow cars in that lane to go either straight or right.
 		 */
 	static const int RIGHT = 2;
 
-		/**
+	/**
+	 * \brief Designates a lane that permits left turns.
+	 *
+	 * Lane turn directions can be added. Initializing a lane with (JPIntersection::STRAIGHT + JPIntersection::RIGHT)
+	 * will allow cars in that lane to go either straight or right.
+	 */
+	static const int LEFT = 4;
+		/*
 		 * \brief Designates a lane that permits left turns without a left turn signal.
 		 *
 		 * Left turns have two distinct situations. The first is a left turn lane without an
@@ -98,9 +121,9 @@ public:
 		 * Lane turn directions can be added Initializing a lane with (JPIntersection::STRAIGHT + JPIntersection::RIGHT)
 		 * will allow cars in that lane to go either straight or right.
 		 */
-	static const int LEFT_NO_SIGNAL = 4;
+	//static const int LEFT_NO_SIGNAL = 4;
 
-		/**
+		/*
 		 * \brief Left for lanes which may only turn left on a left arrow.
 		 *
 		 * Left turns have two distinct situations. The first is a left turn lane without an
@@ -112,7 +135,7 @@ public:
 		 * Lane turn directions can be added Initializing a lane with (JPIntersection::STRAIGHT + JPIntersection::RIGHT)
 		 * will allow cars in that lane to go either straight or right.
 		 */
-	static const int LEFT_ON_SIGNAL_ONLY = 8;
+	//static const int LEFT_ON_SIGNAL_ONLY = 8;
 
 		/**
 		 * \brief The north position.
@@ -184,21 +207,80 @@ public:
 	/**
 	 * \brief set the offset (in lanes) of the rightmost lane.
 	 *
-	 * This function is used to set
+	 * This function is used to setup the physical configuration of the lane. It sets how far from the center
+	 * of the intersection the first lane should start measured in lanes. For example consider an intersection
+	 * with 3 south bound lanes and 3 northbound lanes. For both directions
+	 *
 	 */
 	void setLaneOffsets(double north, double south, double east, double west);
-	double getLaneOffsets(double &offsets);
-	double getLaneOffsetsInFeet(int &offsets);
-	void getLaneCounts(int &counts);
+	void setTrackedEntryDistance(double north, double south, double east, double west);
+	void setTrackedExitDistance(double northSouth, double eastWest);
 	void addLane(int direction, int position, int turnOptions);
+	void addLane(int direction, int position, int turnOptions, int leftTarget, int rightTarget);
+
+	/**
+	 * \brief Finalize the configuration preventing further changes.
+	 */
+	void finalize();
+
+
+	/**
+	 * \brief Return the offset of the lanes for the given direction.
+	 *
+	 * \param direction The direction as specified by Intersection::NORTH, Intersection::SOUTHBOUND, etc.
+	 * \return The offset in lanes for the given direction.
+	 */
+	double getLaneOffset(int direction);
+
+	/**
+	 * \brief Return the offset of the lanes for the given direction.
+	 *
+	 * \param direction The direction as specified by Intersection::NORTH, Intersection::SOUTHBOUND, etc.
+	 * \return The offset in feet for the given direction.
+	 */
+	double getLaneOffsetInFeet(int direction);
+
+	/**
+	 * \brief Set the counts array with lengths for each direction.
+	 *
+	 * \param counts An array with at least four elements.
+	 */
+	void getLaneCounts(int &counts);
+
+
+	/**
+	 * \brief Return the number of lanes for the given direction.
+	 *
+	 * \param direction The direction as specified by Intersection::NORTH, Intersection::SOUTHBOUND, etc.
+	 */
+	int getLaneCount(int direction);
+
+	/**
+	 * \brief Return the distance cars should be tracked after exiting the intersection. The default is 300 feet.
+	 *
+	 */
+	double *getLaneExitLength();
+
+	/**
+	 * \brief Get the lane object corresponding to the specified direction and position.
+	 *
+	 * \param direction The direction as specified by Intersection::NORTH, Intersection::SOUTHBOUND, etc.
+	 * \param position The lane number from 0 to (getLaneCount(direction)-1)
+	 *
+	 * \return The lane object for the specified location.
+	 */
 	JPLane *getLane(int direction, int position);
+
 	virtual ~JPIntersection();
 
 private:
-	JPLane *_lanes[4][6];
+	//direction specific variables
 	int _laneCounts[4];
 	double _laneOffsets[4];
 	double _laneLengths[4];
+	double _laneExit[2];
+
+	JPLane *_lanes[4][MAX_LANES_MACRO];
 
 };
 
