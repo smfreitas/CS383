@@ -10,6 +10,9 @@
 #include "JPConstants.h"
 #include "JPLane.h"
 #include "JPIntersection.h"
+#include "JPIntersectionGrid.h"
+#include "JPTrafficModel.h"
+#include "JPUpdatableInterface.h"
 #include "../src/james/SFCar.h"
 
 class JPSimulationEngine {
@@ -38,6 +41,12 @@ private:
 	//const double straightSpeed = 20;
 	const double reactionTime= 0.25;
 
+	//internal simulation objects
+	JPUpdatableInterface *graphic;
+	JPIntersection *intersection;
+	JPIntersectionGrid *iGrid;
+	JPTrafficModel *trafficModel;
+
 	//Running Variables
 	double _time;
 	bool _paused;
@@ -47,7 +56,11 @@ private:
 	//Internal Methods
 	void run();
 	double intersectionDeceleration(double pos, double speed, double pcPos, double pcSpeed, SFCar *car);
-	//double carDeceleration();
+	//previous car's speed/pos
+	//double carDeceleration(SFCar &car, double prevSpeed, double prevPos);
+
+	//returns position
+	//double translatePosition(int direction, int lnNum,
 	void processLane(JPLane *lane);
 
 	//void chooseLane(Car car, int direction,Lane lanes[][])

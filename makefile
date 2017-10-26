@@ -28,32 +28,53 @@ CPP=g++
 CPPFLAGS = -g -Wall
 
 .PHONY: clean docs test SFBuildTest SFallTest BGbuildTest BGallTest DJbuildTest DJallTest JJbuildTest JJallTest JPbuildTest JPallTest cleandocs
+############################################################################
+#Begin Samantha
 
-#Samantha
-SFBuildTest: 
+SFbuildTest: 
 SFallTest: 
+#End Samantha
 
-#Brandon
+
+############################################################################
+#Begin Brandon
+
 BGbuildTest: 
 BGallTest:
+#End Brandon
 
-#Dakota 
+
+############################################################################
+#Begin Dakota 
+
 DJbuildTest: 
-DJallTest: 
+DJallTest:
+#End Dakota 
 
-#Joe
+
+############################################################################
+#Begin Joe
+
 JJbuildTest: 
 JJallTest: 
+#End Joe
 
+############################################################################
+#Begin James
 #car dummy #get rid of this when the real car is here also need to replace alll references to car header/src
 SFCar.o: src/james/SFCar.cpp
 	$(CPP) $(CPPFLAGS) -c src/james/SFCar.cpp 	
 
+#Updatable Interface
+JPUpdatableInterface.o: src/james/JPUpdatableInterface.cpp inc/JPUpdatableInterface.h
+	$(CPP) $(CPPFLAGS) -c src/james/JPUpdatableInterface.cpp
+
+
 #Test Stubs
-test/JPLightTestStub.o: test/JPLightTestStub.cpp test/JPLightTestStub.h #DJTrafficLightManager.o
+JPLightTestStub.o: test/JPLightTestStub.cpp test/JPLightTestStub.h #DJTrafficLightManager.o
 	$(CPP) $(CPPFLAGS) -c test/JPLightTestStub.cpp	#DJTrafficLightManager
 	
-test/JPCarTestStub.o: test/JPCarTestStub.cpp test/JPCarTestStub.h SFCar.o 
+JPCarTestStub.o: test/JPCarTestStub.cpp test/JPCarTestStub.h SFCar.o 
 	$(CPP) $(CPPFLAGS) -c test/JPCarTestStub.cpp 
 
 #Lane
@@ -99,11 +120,11 @@ JPTMtest: test/JPTrafficModel_test.exe
 	test/JPTrafficModel_test.exe
 
 #Simulation Engine
-JPSimulationEngine.o: src/james/JPSimulationEngine.cpp inc/JPConstants.h inc/ inc/JPSimulationEngine.h SFCar.o JPLane.o JPIntersection.o JPTrafficModelExceptions.o JPIntersectionGrid.o JPTrafficModel.o JPIntersectionExceptions.o
+JPSimulationEngine.o: src/james/JPSimulationEngine.cpp inc/JPConstants.h inc/ inc/JPSimulationEngine.h SFCar.o JPLane.o JPIntersection.o JPTrafficModelExceptions.o JPIntersectionGrid.o JPTrafficModel.o JPIntersectionExceptions.o JPUpdatableInterface.o
 	$(CPP) $(CPPFLAGS) -c src/james/JPSimulationEngine.cpp
 
 test/JPSimulationEngine_test.exe: JPSimulationEngine.o test/JPSimulationEngine_test.cpp
-	$(CPP) $(CPPFLAGS) SFCar.o JPLane.o JPIntersection.o JPIntersectionExceptions.o  JPIntersectionGrid.o JPTrafficModel.o JPTrafficModelExceptions.o JPSimulationEngine.o test/JPSimulationEngine_test.cpp  $(LIBS) -o test/JPSimulationEngine_test
+	$(CPP) $(CPPFLAGS) SFCar.o JPLane.o JPIntersection.o JPIntersectionExceptions.o  JPIntersectionGrid.o JPTrafficModel.o JPTrafficModelExceptions.o JPSimulationEngine.o JPUpdatableInterface.o test/JPSimulationEngine_test.cpp  $(LIBS) -o test/JPSimulationEngine_test
 	
 JPSEtest: test/JPSimulationEngine_test.exe
 	test/JPSimulationEngine_test.exe
