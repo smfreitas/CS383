@@ -13,6 +13,8 @@
 #define SRC_JAMES_JPLANE_H_
 
 /**
+ * \brief A lane object that serves as an iterable container for cars.
+ *
  * A lane is a linked list of cars that may be iterated over for computation or rendering.
  * The list is primarily operated as a queue with a few special functions for early
  * removal and addition. Throughout this documentation, the beginning of the lane

@@ -7,7 +7,7 @@
 
 #ifndef SRC_JAMES_JPINTERSECTIONGRID_H_
 #define SRC_JAMES_JPINTERSECTIONGRID_H_
-#include "SFCar.h"
+#include "../src/james/SFCar.h"
 #include "JPIntersection.h"
 
 /**

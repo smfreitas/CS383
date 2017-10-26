@@ -52,7 +52,7 @@ JPTwoLanesToOneException::JPTwoLanesToOneException(int direction, int thisLane, 
 
 const char* JPTwoLanesToOneException::what() const throw ()
 {
-	return "";
+	return "The lane you are trying to add turns into a lane that already receives turning cars from another lane. ";
 }
 
 int JPTwoLanesToOneException::getTargetLane()
@@ -70,4 +70,93 @@ JPMultipleIntersectionsException::JPMultipleIntersectionsException(){}
 const char* JPMultipleIntersectionsException::what() const throw ()
 {
 	return "You can only instantiate one instance of JPIntersection";
+}
+
+
+JPLaneCollidesWithOncomingLane::JPLaneCollidesWithOncomingLane(int direction,
+		int thisLane, int collidingLane)
+{
+	_collidingLane = collidingLane;
+}
+
+const char* JPLaneCollidesWithOncomingLane::what() const throw ()
+{
+	return "";
+}
+
+int JPLaneCollidesWithOncomingLane::getCollidingLane()
+{
+	return _collidingLane;
+}
+
+JPTurningLaneCrossingStraightLane::JPTurningLaneCrossingStraightLane(
+		int direction, int thisLane)
+{
+}
+
+const char* JPTurningLaneCrossingStraightLane::what() const throw ()
+{
+	return "";
+}
+
+JPLaneOffsetMismatch::JPLaneOffsetMismatch()
+{
+
+}
+
+const char* JPLaneOffsetMismatch::what() const throw ()
+{
+	return "";
+}
+
+JPLaneNumberOutOfBounds::JPLaneNumberOutOfBounds(int lane)
+{
+}
+
+const char* JPLaneNumberOutOfBounds::what() const throw ()
+{
+	return "";
+}
+
+JPDirectionOutOfBounds::JPDirectionOutOfBounds(int direction)
+{
+}
+
+const char* JPDirectionOutOfBounds::what() const throw ()
+{
+	return "";
+}
+
+JPIntersectionException::JPIntersectionException() {
+}
+
+JPIntersectionException::~JPIntersectionException() throw () {
+}
+
+const char* JPIntersectionException::what() const throw ()
+{
+	return "";
+}
+
+JPConfigurationOrderException::JPConfigurationOrderException() {
+}
+
+JPConfigurationOrderException::~JPConfigurationOrderException() throw ()
+{
+	_detail = 0;
+}
+
+const char* JPConfigurationOrderException::what() const throw ()
+{
+	return "";
+}
+
+JPConfigurationOrderException::JPConfigurationOrderException(int which)
+{
+	_detail = which;
+}
+
+int JPConfigurationOrderException::getDetail()
+{
+	return _detail;
 }

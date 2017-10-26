@@ -361,5 +361,7 @@ inline int addingAfterFinalized()
 	}
 }
 
-inline int addLanesCheck() {
+inline int addLanesCheck()
+{
+	return 1;
 }

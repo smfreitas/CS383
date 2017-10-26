@@ -22,22 +22,34 @@
  * intersection = new JPIntersection();
  *
  *	//setup the intersection details
- *	setTrackedEntryDistance(2640, 2640, 2640, 2640); //track cars for a half mile before center if the intersection
- *	setTrackedExitDistance(600,600); //track cars for 200 yards past the center of the intersection
+ *	//track cars for a half mile before center if the intersection
+ *	intersection->setTrackedLaneLengths(2640, 2640, 2640, 2640);
+ *	intersection->setTrackedExitDistance(600,600); //track cars for 200 yards past the center of the intersection
  *
- *	//add the individual lanes
- *	//addLane(int direction, int position, int turnOptions, int leftTarget, int rightTarget);
- *	addLane(, , , ,);
- *	addLane(Intersection::SOUTHBOUND, 0, Intersection::RIGHT + Intersection::STRAIGHT , 0, 0); //Lane in the first position can go either straight or right into the first WESTBOUND lane
- *	addLane(Intersection::SOUTHBOUND, 1, Intersection::STRAIGHT, 0, 0); //Lane in the second position can only go straight. Right and left targets will be ignored
- *	addLane(Intersection::SOUTHBOUND, 2, Intersection::LEFT_ON_SIGNAL_ONLY, 1,0); // Lane only turns left and requires a signal. Left turns will enter the second eastbound lane
- *	addLane(, , , ,);
- *	addLane(, , , ,);
- * //this aligns the intersection so that the NORTH/SOUTH lanes are offset by two
+ * //This intersection is aligned so that the NORTH/SOUTH lanes are offset by 2.5
  * //lane widths and EAST/WEST lanes are offset by 2 lane widths.
  * //i.e. the the northwest corner is 2.5 lane widths
  * //to the left of the center and 2 lane widths, above the center.
- * intersection->setLaneOffsets(2.5,2.5,2,2);
+ *	//alternatively setLaneOffsets(int direction, double distance) can be used
+ *	intersection->setLaneOffsets(2.5,2.5,2,2);
+ *
+ *	intersection->setSpeedLimits(35);
+ *
+ *	//add the individual lanes
+ *	//addLane(int direction, int position, int turnOptions, int leftTarget, int rightTarget);
+ *	intersection->addLane(Intersection::SOUTHBOUND, 0, Intersection::RIGHT + Intersection::STRAIGHT , 0, 0); //Lane in the first position can go either straight or right into the first westbound lane
+ *	intersection->addLane(Intersection::SOUTHBOUND, 1, Intersection::STRAIGHT, 0, 0); //Lane in the second position can only go straight. Right and left targets will be ignored
+ *	intersection->addLane(Intersection::SOUTHBOUND, 2, Intersection::LEFT, 1,0); // Lane only turns left and requires a signal. Left turns will enter the second eastbound lane
+ *
+ *	intersection->addLane(Intersection::WESTBOUND, 0, Intersection::RIGHT + Intersection::STRAIGHT , 0, 0); //Lane in the first position can go either straight or right into the first northbound lane
+ *	intersection->addLane(Intersection::WESTBOUND, 1, Intersection::LEFT, 1, 0); // Lane only turns left and requires a signal. Left turns will enter the second eastbound lane
+ *
+ *	intersection->addLane(Intersection::NORTHBOUND, 0, Intersection::RIGHT + Intersection::STRAIGHT , 0, 0); //Lane in the first position can go either straight or right into the first eastbound lane
+ *	intersection->addLane(Intersection::NORTHBOUND, 1, Intersection::STRAIGHT, 0, 0); //Lane in the second position can only go straight. Right and left targets will be ignored
+ *	intersection->addLane(Intersection::NORTHBOUND, 2, Intersection::LEFT, 1,0); // Lane only turns left and requires a signal. Left turns will enter the second westbound lane
+ *
+*	intersection->addLane(Intersection::EASTBOUND, 0, Intersection::RIGHT + Intersection::STRAIGHT , 0, 0); //Lane in the first position can go either straight or right into the first southbound lane
+ *	intersection->addLane(Intersection::EASTBOUND, 1, Intersection::LEFT, 1, 0); // Lane only turns left and requires a signal. Left turns will enter the second westbound lane
  * \endcode
  *
  * Usage: Accessing lanes.
@@ -75,7 +87,7 @@ public:
 	 *
 	 * This is synonymous with the value in MAX_LANES_MACRO.
 	 */
-	static const int MAX_LANES = MAX_LANES_MACRO; //this macro is defined in the grid class
+	static const int MAX_LANES = MAX_LANES_MACRO;
 
 	/**
 	 * \brief The width of the lane in feet (10).
@@ -213,9 +225,11 @@ public:
 	 *
 	 */
 	void setLaneOffsets(double north, double south, double east, double west);
-	void setTrackedEntryDistance(double north, double south, double east, double west);
+	void setLaneOffset(int direction, double offset);
+	void setTrackedLaneLengths(double north, double south, double east, double west);
+	void setTrackedLaneLength(int direction, double distance);
 	void setTrackedExitDistance(double northSouth, double eastWest);
-	void addLane(int direction, int position, int turnOptions);
+	void setSpeedLimits(double northSouth, double eastWest);
 	void addLane(int direction, int position, int turnOptions, int leftTarget, int rightTarget);
 
 	/**
@@ -279,6 +293,10 @@ private:
 	double _laneOffsets[4];
 	double _laneLengths[4];
 	double _laneExit[2];
+
+	//setter flags (if you try to finalize with these not set, throw an exception)
+	bool _laneOffsetsSet;
+	bool _speedLimitsSet;
 
 	JPLane *_lanes[4][MAX_LANES_MACRO];
 

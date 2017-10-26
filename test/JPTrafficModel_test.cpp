@@ -10,8 +10,47 @@
 #include "../inc/JPConstants.h"
 #include "../inc/JPIntersection.h"
 
+int directionOutOfBoundsTest();
+int rateLessThanZeroTest();
+int probabilityLessThanZeroTest();
+int distributionTests();
 int main()
 {
+
+	// "\033[32mtext[\033[0m" change 32 to 31 for red. Not working on MSYS
+	consts::testOuptut("JPTrafficModel: Direction Out Of Bounds Test",
+			directionOutOfBoundsTest() );
+	consts::testOuptut("JPTrafficModel: Rate Less Than Zero Test",
+			rateLessThanZeroTest() );
+	consts::testOuptut("JPTrafficModel: Probability Less Than Zero Test",
+			probabilityLessThanZeroTest() );
+	distributionTests();
+
+	return 0;
+}
+
+inline int directionOutOfBoundsTest()
+{
+	//verify that an out of bounds direction causes the correct exception
+	return 1;
+}
+
+inline int rateLessThanZeroTest()
+{
+	//verify that a rate of less than 0 causes the correct exception
+	return 1;
+}
+
+inline int probabilityLessThanZeroTest()
+{
+	//verify that a probability less than zero causes the correct exception
+	return 1;
+}
+
+inline int distributionTests()
+{
+	//same data is used for both tests.
+
 	JPTrafficModel tm;
 	tm.setProbability(JPIntersection::NORTH,15,60,25); // -> no more than 10% error in distribution
 	tm.setProbability(JPIntersection::SOUTH,10,0,0); // -> Only left turns
@@ -22,21 +61,18 @@ int main()
 	tm.setTrafficRate(JPIntersection::EAST, 100);
 	tm.setTrafficRate(JPIntersection::WEST, 1000);
 
-	// "\033[32mtext[\033[0m" change 32 to 31 for red. Not working on MSYS
-	consts::testOuptut("JPTrafficModel: Error Test", 1);
+	//20,000 calls getNextTiming()
+	//verify distributions.
 	consts::testOuptut("JPTrafficModel: Direction Distribution Test", 1);
 	consts::testOuptut("JPTrafficModel: Rate Distribution Test", 1);
-	return 0;
+	return 1;
 }
 /*
 Errors
 direction != N/S/E/W
 rate <= 0;
-rate > 1000 Cars / hour
-invalid direction
 probability < 0
 
 Tests
 each invalid input
-20,000 calls getNextTiming()
 */
