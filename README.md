@@ -16,8 +16,22 @@
 5. Complete test plan for all functions in your feature. Most test cases should fail since there is no code yet. (Individual Mark) 3%
 6. Gantt time-line with time estimates for the remainder of your feature. 2%
 
-
 ### Notes about Traffic Light
 - I'm only supposed to manage what state the light is in (if I understood that correctly). If so, I really only have to take the time and time multiplier (sim speed) into account and on a per-light basis return if its green, red, yellow, etc.
 - I'll create a single `traffic light` object with constants like in the djconstants.h file and have them correspond to a lane
 - There will have to be checking & testing to ensure there's no two green lights which could cause a collision
+
+## Class / Module Responsibilities
+This will be a bit redundant with the docs, but I thought it would be helpful in the meantime.
+- 	SimulationEngine: Control the movement of cars by updating their location and speed. Add new cars to the system.
+- 	TrafficModel: Determine when new cars will be added to the system and where they want to go. Provide this information to the SimulationEngine
+-   Intersection: Serve as a container for lanes, speed limits, and other intersection information. Serve as a validator for the intersection configuration.
+-  	Lane: Serve as an iterable container for cars.
+- 	Car:  Serve as a container for information needed by the simulation engine and visualization (position, speed, etc). Generate random variable parameters not controlled by TrafficModel (e.g. desired speed, car length, etc)
+-	TrafficLight: Provide the SimulationEngine with the light status (Red, Green, etc) provided the time. 
+-	Input GUI: Allow the user to setup the intersection and stop light.
+-	Visualization: Display a visualization of the intersection showing where each car is and animating movement.
+
+### Optional/New/Unlcaimed
+-	Output Report GUI: Display a report with the desired information. 
+-	Output Tracker: Track parameters relevant to the report.
