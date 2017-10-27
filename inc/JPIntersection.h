@@ -228,7 +228,7 @@ public:
 	void setLaneOffset(int direction, double offset);
 	void setTrackedLaneLengths(double north, double south, double east, double west);
 	void setTrackedLaneLength(int direction, double distance);
-	void setTrackedExitDistance(double northSouth, double eastWest);
+	void setTrackedExitLength(double northSouth, double eastWest);
 	void setSpeedLimits(double northSouth, double eastWest);
 	void addLane(int direction, int position, int turnOptions, int leftTarget, int rightTarget);
 
@@ -270,10 +270,16 @@ public:
 	int getLaneCount(int direction);
 
 	/**
+	 * \brief Return the distance cars will be tracked before entering the intersection.
+	 *
+	 */
+	double getTrackedLaneLength(int direction);
+
+	/**
 	 * \brief Return the distance cars should be tracked after exiting the intersection. The default is 300 feet.
 	 *
 	 */
-	double *getLaneExitLength();
+	double getLaneExitLength(int direction);
 
 	/**
 	 * \brief Get the lane object corresponding to the specified direction and position.

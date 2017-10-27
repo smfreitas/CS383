@@ -9,10 +9,6 @@
 
 JPLane::JPLane(int turnOptions, int leftTarget, int rightTarget)
 {
-	_renderFlagged = false;
-	_leftTarget = leftTarget;
-	_rightTarget = rightTarget;
-	_turnOptions = turnOptions;
 
 }
 
@@ -25,10 +21,12 @@ SFCar* JPLane::getNextCar()
 	return 0;
 }
 
+/*//dropping
 SFCar* JPLane::getFirstRenderedCar()
 {
 	return 0;
 }
+*/
 
 void JPLane::removeCurrentCar()
 {
@@ -46,10 +44,11 @@ void JPLane::addCarAtEnd(SFCar* car)
 {
 }
 
+/*//dropping
 void JPLane::flagCarAsFirstRendered()
 {
 }
-
+*/
 JPLane::~JPLane() {
 	// TODO Auto-generated destructor stub
 }

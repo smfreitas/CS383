@@ -58,7 +58,7 @@ public:
 	 */
 	SFCar *getNextCar();
 
-	/**
+	/*//dropping this
 	 * \brief Return the first car that might be renderable.
 	 *
 	 * This function returns the car marked by the flagCarAsFirstRendered() method
@@ -73,7 +73,7 @@ public:
 	 *
 	 * \return the first car that can be rendered or one shortly before the renderable region
 	 */
-	SFCar *getFirstRenderedCar();
+	//SFCar *getFirstRenderedCar();
 
 	/**
 	 * \brief Remove the last car to be returned from the lane.
@@ -106,24 +106,20 @@ public:
 	 */
 	void addCarAtEnd(SFCar *car);
 
-	/**
+	/*//dropping
 	 * \brief Flag the current car in the iteration as the first rendered.
 	 *
 	 * This is used while the simulation engine is iterating over the lane and
 	 * processing it. When the engine reaches the first car that is within the
 	 * visualization's field of view, it flags that car with this method.
 	 */
-	void flagCarAsFirstRendered();
+	//void flagCarAsFirstRendered();
 
 	virtual ~JPLane();
 
 private:
 	//_iterator
-	bool _renderFlagged;
-
-	int _leftTarget;
-	int _rightTarget;
-	int _turnOptions;
+	//bool _renderFlagged; //dropping this
 };
 
 #endif /* SRC_JAMES_JPLANE_H_ */

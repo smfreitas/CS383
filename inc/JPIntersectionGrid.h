@@ -26,6 +26,7 @@ public:
 	 * 	a negative value of the maximum allowable acceleration if the car can speed up but the lane is not entirely clear
 	 */
 	double checkPath(int direction, int lane, SFCar &car);
+	double checkYield(int direction, int lane, SFCar &car);
 	void setup(JPIntersection inters);
 	void clearRow(int direction, int lane); //reset row at the beginning of processing a new lane
 	void addCar(int direction, int lane, SFCar &car);
@@ -33,8 +34,15 @@ public:
 private:
 	SFCar *_NorthSouthGrid[MAX_LANES_MACRO][MAX_LANES_MACRO][2];
 	SFCar *_EastWestGrid[MAX_LANES_MACRO][MAX_LANES_MACRO][2];
+	SFCar *_firstCars[4][MAX_LANES_MACRO];
 	double _offsets[4];
 	int _numLanes[4];
+
+	//reference tables
+	int _beginX[4];
+	int _beginY[4];
+	const int _incX[4] = {-1,1,-1,1}; //not set accurately
+	const int _incY[4] = {-1,1,-1,1}; //not set accurately
 };
 
 #endif /* SRC_JAMES_JPINTERSECTIONGRID_H_ */

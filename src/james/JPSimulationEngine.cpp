@@ -62,6 +62,24 @@ double JPSimulationEngine::intersectionDeceleration(double pos, double speed,
 	return 0.0;
 }
 
+void JPSimulationEngine::end() {
+}
+
+void JPSimulationEngine::setVisualization(JPUpdatableInterface* interface) {
+}
+
+void JPSimulationEngine::setTrafficModel(JPTrafficModel* model) {
+}
+
+void JPSimulationEngine::setIntersection(JPIntersection* intersection) {
+}
+
+void JPSimulationEngine::setInitTime(double secs) {
+}
+
 void JPSimulationEngine::processLane(JPLane* lane)
 {
+}
+
+void JPSimulationEngine::addCars(int direction, JPLane lane, double timeStep) {
 }

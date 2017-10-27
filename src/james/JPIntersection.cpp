@@ -30,6 +30,11 @@ void JPIntersection::setTrackedLaneLength(int direction, double distance) {
 void JPIntersection::setSpeedLimits(double northSouth, double eastWest) {
 }
 
+double JPIntersection::getTrackedLaneLength(int direction)
+{
+	return 0.0;
+}
+
 JPIntersection::~JPIntersection()
 {
 	count = 0;
@@ -46,7 +51,7 @@ void JPIntersection::setTrackedLaneLengths(double north, double south,
 		double east, double west) {
 }
 
-void JPIntersection::setTrackedExitDistance(double northSouth,
+void JPIntersection::setTrackedExitLength(double northSouth,
 		double eastWest) {
 }
 
@@ -72,7 +77,7 @@ int JPIntersection::getLaneCount(int direction)
 	return 0;
 }
 
-double* JPIntersection::getLaneExitLength()
+double JPIntersection::getLaneExitLength(int direction)
 {
 	return 0;
 }
