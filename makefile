@@ -102,15 +102,17 @@ JPItest: test/JPIntersection_test.exe
 JPIntersectionGrid.o: src/james/JPIntersectionGrid.cpp inc/JPIntersectionGrid.h JPIntersection.o JPIntersectionExceptions.o SFCar.o
 	$(CPP) $(CPPFLAGS) -c src/james/JPIntersectionGrid.cpp
 
-test/JPIntersectionGrid_test.exe: test/JPIntersectionGrid_test.cpp JPIntersectionGrid.o
-	$(CPP) $(CPPFLAGS) JPIntersection.o JPIntersectionExceptions.o SFCar.o JPIntersectionGrid.o test/JPIntersectionGrid_test.cpp  $(LIBS) -o test/JPIntersectionGrid_test
+test/JPIntersectionGrid_test.exe: test/JPIntersectionGrid_test.cpp JPIntersectionGrid.o JPLane.o
+	$(CPP) $(CPPFLAGS) JPIntersection.o JPIntersectionExceptions.o SFCar.o JPIntersectionGrid.o JPLane.o test/JPIntersectionGrid_test.cpp  $(LIBS) -o test/JPIntersectionGrid_test
 	
 JPIGtest: test/JPIntersectionGrid_test.exe
 	test/JPIntersectionGrid_test.exe
 
 #Traffic Model
-JPTrafficModel.o: src/james/JPTrafficModel.cpp inc/JPConstants.h inc/JPTrafficModel.h  src/james/JPTrafficModelExceptions.cpp inc/JPTrafficModelExceptions.h
-	$(CPP) $(CPPFLAGS) -c src/james/JPTrafficModelExceptions.cpp 
+JPTrafficModelExceptions.o: inc/JPConstants.h
+	$(CPP) $(CPPFLAGS) -c src/james/JPTrafficModelExceptions.cpp src/james/JPTrafficModelExceptions.cpp inc/JPTrafficModelExceptions.h
+
+JPTrafficModel.o: src/james/JPTrafficModel.cpp inc/JPConstants.h inc/JPTrafficModel.h  JPTrafficModelExceptions.o inc/JPTrafficModelExceptions.h
 	$(CPP) $(CPPFLAGS) -c src/james/JPTrafficModel.cpp 
 
 test/JPTrafficModel_test.exe: JPTrafficModel.o test/JPTrafficModel_test.cpp
