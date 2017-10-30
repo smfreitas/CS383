@@ -16,11 +16,6 @@
 5. Complete test plan for all functions in your feature. Most test cases should fail since there is no code yet. (Individual Mark) 3%
 6. Gantt time-line with time estimates for the remainder of your feature. 2%
 
-### Notes about Traffic Light
-- I'm only supposed to manage what state the light is in (if I understood that correctly). If so, I really only have to take the time and time multiplier (sim speed) into account and on a per-light basis return if its green, red, yellow, etc.
-- I'll create a single `traffic light` object with constants like in the djconstants.h file and have them correspond to a lane
-- There will have to be checking & testing to ensure there's no two green lights which could cause a collision
-
 ## Class / Module Responsibilities
 This will be a bit redundant with the docs, but I thought it would be helpful in the meantime.
 - 	SimulationEngine: Control the movement of cars by updating their location and speed. Add new cars to the system.
