@@ -166,26 +166,18 @@ public:
 
 	JPIntersection();
 
-	/**
-	 * \brief set the offset (in lanes) of the rightmost lane.
-	 *
-	 * This function is used to setup the physical configuration of the lane. It sets how far from the center
-	 * of the intersection the first lane should start measured in lanes. For example consider an intersection
-	 * with 3 south bound lanes and 3 northbound lanes. For both directions
-	 *
-	 */
-	void setLaneOffsets(double north, double south, double east, double west);
-	void setLaneOffset(int direction, double offset);
-	void setTrackedLaneLengths(double north, double south, double east, double west);
+	void setLaneOffsets(double north, double south, double east, double west); /** \brief Set the offset (in lanes) of the rightmost lane. */
+	void setLaneOffset(int direction, double offset);							/** \brief Set the offset (in lanes) of the rightmost lane. */
+	void setTrackedLaneLengths(double north, double south, double east, double west); /** \brief Set the distance (in feet) that simulation tracks cars before the center of the intersection */
 	void setTrackedLaneLength(int direction, double distance);
-	void setTrackedExitLength(double northSouth, double eastWest);
-	void setSpeedLimits(double northSouth, double eastWest);
+	void setTrackedExitLengths(double northSouth, double eastWest);
+	void setSpeedLimits(double northSouth, double eastWest); /** \brief Set speed limits in miles per hour */
 	void addLane(int direction, int position, int turnOptions, int leftTarget, int rightTarget);
 
-	/**
-	 * \brief Finalize the configuration preventing further changes.
-	 */
-	void finalize();
+	double getSpeedLimits(int direction); /** \brief Return the speed limit in MPH */
+	double getSpeedLimitsInFPS(int direction); /** \brief Return the speed limit in ft/s */
+	void finalize(); /** \brief Finalize the configuration preventing further changes. */
+
 
 
 	/**
@@ -205,11 +197,11 @@ public:
 	double getLaneOffsetInFeet(int direction);
 
 	/**
-	 * \brief Set the counts array with lengths for each direction.
+	 * \brief Set the counts array with the number of lanes in each direction.
 	 *
-	 * \param counts An array with at least four elements.
+	 * \param counts A destination array with at least four elements.
 	 */
-	void getLaneCounts(int &counts);
+	void getLaneCounts(int counts[]);
 
 
 	/**
@@ -220,16 +212,16 @@ public:
 	int getLaneCount(int direction);
 
 	/**
-	 * \brief Return the distance cars will be tracked before entering the intersection.
+	 * \brief Return the distance in feet cars will be tracked before entering the intersection.
 	 *
 	 */
 	double getTrackedLaneLength(int direction);
 
 	/**
-	 * \brief Return the distance cars should be tracked after exiting the intersection. The default is 300 feet.
+	 * \brief Return the distance in feet cars should be tracked after exiting the intersection. The default is 300 feet.
 	 *
 	 */
-	double getLaneExitLength(int direction);
+	double getTrackedExitLength(int direction);
 
 	/**
 	 * \brief Get the lane object corresponding to the specified direction and position.
@@ -248,12 +240,10 @@ private:
 	int _laneCounts[4];
 	double _laneOffsets[4];
 	double _laneLengths[4];
-	double _laneExit[2];
+	double _laneExit[2]; //north and south
+	double _speedLimits[2];
 
-	//setter flags (if you try to finalize with these not set, throw an exception)
-	bool _laneOffsetsSet;
-	bool _speedLimitsSet;
-
+	bool _finalized;
 	JPLane *_lanes[4][MAX_LANES_MACRO];
 
 };

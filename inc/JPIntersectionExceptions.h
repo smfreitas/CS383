@@ -5,6 +5,19 @@
  *      Author: james
  */
 #include <exception>
+/* QuickList
+ * JPMalformedIntersectionException
+ * JPConfigurationOrderException w/ numbers
+ * JPMultipleIntersectionsException
+ * JPTwoLanesToOneException
+ * JPLaneCollidesWithOncomingLane
+ * JPTurningLaneCrossingStraightLane
+ * JPLaneNumberOutOfBounds
+ * JPDirectionOutOfBounds
+ */
+
+
+
 
 //to add: IntersectionException super class, cannotFinalizeException, maybe laneAlreadyExistsException
 #ifndef SRC_JAMES_MALFORMEDINTERSECTIONEXCEPTION_H_

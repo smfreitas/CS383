@@ -1,6 +1,7 @@
 #ifndef TRAFFIC_CONSTANTS_HEADER
 #define TRAFFIC_CONSTANTS_HEADER
 #include <stdio.h>
+#include <cmath>
 
 /**
  *  \brief A group of constants used throughout the program.
@@ -50,11 +51,26 @@ namespace consts
 	inline int testOuptut(const char *name, const int testFailed)
 	{
 		// "\033[32mtext[\033[0m" change 32 to 31 for red. Not working on MSYS
-		if(0 == testFailed)
+		if(-1 == testFailed)
+			printf("    %-65s[xFail ]\n", name);
+		else if(0 == testFailed)
 			printf("    %-65s[Passed]\n", name);
 		else
 			printf("    %-65s[Failed]\n", name);
 		return testFailed;
+	}
+
+	/**
+	 * \brief compare near equality for doubles
+	 */
+	inline bool deq(double d1, double d2)
+	{
+		double avg = (d1+d2)/2;
+		double dif = std::abs(d1-d2);
+		if( dif/avg < 0.00001)
+			return true;
+		else
+			return false;
 	}
 }
 #endif

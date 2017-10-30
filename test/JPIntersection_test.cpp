@@ -7,6 +7,7 @@
 #include "../inc/JPIntersectionExceptions.h"
 #include "../inc/JPIntersection.h"
 #include "../inc/JPConstants.h"
+#include "../inc/JPLane.h"
 
 #define JPEXCEPTION_REPLACE_ME JPMalformedIntersectionException
 
@@ -29,7 +30,7 @@ int addingAfterFinalized();
 
 //functionality
 int addLanesCheck();
-
+int gettersAndSettersTest();
 int main()
 {
 	int ret = 0;
@@ -84,6 +85,11 @@ int main()
 	ret = consts::testOuptut(
 				"JPIntersection: Adding Lanes Test",
 				addLanesCheck() );
+	//make sure the getters and setters work properly
+	ret = consts::testOuptut(
+				"JPIntersection: Getters and Setters Test",
+				gettersAndSettersTest() );
+printf("%d\n",ret);
 
 	/*blank
 	ret = consts::testOuptut(
@@ -202,7 +208,7 @@ inline int addingAfterFinalizedCheck()
 	try
 	{
 		//bad news if you made it here
-		return 1;
+		return -1;
 	}
 	catch(JPEXCEPTION_REPLACE_ME & e)
 	{
@@ -216,7 +222,7 @@ inline int multipleIntersectionCheck()
 	try
 	{
 		//bad news if you made it here
-		return 1;
+		return -1;
 	}
 	catch(JPEXCEPTION_REPLACE_ME & e)
 	{
@@ -231,7 +237,7 @@ inline int laneCollidesWithOncomingLaneCheck()
 	try
 	{
 		//bad news if you made it here
-		return 1;
+		return -1;
 	}
 	catch(JPEXCEPTION_REPLACE_ME & e)
 	{
@@ -246,7 +252,7 @@ inline int twoLanesTurningToOneCheck()
 	try
 	{
 		//bad news if you made it here
-		return 1;
+		return -1;
 	}
 	catch(JPEXCEPTION_REPLACE_ME & e)
 	{
@@ -260,7 +266,7 @@ inline int laneOffsetMismatchCheck()
 	try
 	{
 		//bad news if you made it here
-		return 1;
+		return -1;
 	}
 	catch(JPEXCEPTION_REPLACE_ME & e)
 	{
@@ -275,7 +281,7 @@ inline int turningLaneCrossingStraightLaneCheck()
 	try
 	{
 		//bad news if you made it here
-		return 1;
+		return -1;
 	}
 	catch(JPEXCEPTION_REPLACE_ME & e)
 	{
@@ -290,7 +296,7 @@ inline int laneNumberOutOfBoundsCheck()
 	try
 	{
 		//bad news if you made it here
-		return 1;
+		return -1;
 	}
 	catch(JPEXCEPTION_REPLACE_ME & e)
 	{
@@ -304,7 +310,7 @@ inline int directionOutOfBoundsCheck()
 	try
 	{
 		//bad news if you made it here
-		return 1;
+		return -1;
 	}
 	catch(JPEXCEPTION_REPLACE_ME & e)
 	{
@@ -318,7 +324,7 @@ inline int addingAfterFinalized()
 	try
 	{
 		//bad news if you made it here
-		return 1;
+		return -1;
 	}
 	catch(JPEXCEPTION_REPLACE_ME & e)
 	{
@@ -329,5 +335,121 @@ inline int addingAfterFinalized()
 
 inline int addLanesCheck()
 {
-	return 1;
+	int i,j,k;
+	int max = JPIntersection::MAX_LANES;
+	JPLane **lanes = new JPLane*[max * 4];
+	JPIntersection inter = JPIntersection();
+	inter.setLaneOffsets(max,max,max,max); //ensure no overlap
+
+	//printf("Assignment\n");
+	//assign those 24 lanes to unique positions
+	for(i = 0; i < 4; i++)
+		for(j = 0; j < JPIntersection::MAX_LANES; j++)
+			inter.addLane(i,j,JPLane::STRAIGHT, 0, 0);
+
+	//printf("Retrieval\n");
+	//retrieve the 24 lanes
+	k = 0;
+	for(i = 0; i < 4; i++)
+		for(j = 0; j < JPIntersection::MAX_LANES; j++)
+			lanes[k++] = inter.getLane(i,j);
+
+	//printf("Comparison\n");
+	//make sure you get back 24 unique addresses
+	for(i = 0; i < max * 4; i++)
+	{
+		//printf("[%d]:\t%d\n", i, lanes[i]);
+		for(j = i + 1; j < max * 4; j++)
+		{
+			if( lanes[j] == lanes[i])
+				return 1;
+
+			//attempt to access the object this should cause a
+			//segfault if it doesn't point to the right spot
+			lanes[i]->addCarAtEnd(new SFCar);
+		}
+	}
+
+
+	return 0;
+}
+
+inline int gettersAndSettersTest()
+{
+	JPIntersection inter = JPIntersection();
+
+	//test set multiple offsets with both gets
+	inter.setLaneOffsets(6,5,4,3); //ensure no overlap
+	if(6 != inter.getLaneOffset(JPIntersection::NORTH) ) return 1;
+	if(5 != inter.getLaneOffset(JPIntersection::SOUTH) ) return 2;
+	if(4 != inter.getLaneOffset(JPIntersection::EAST) ) return 3;
+	if(3 != inter.getLaneOffset(JPIntersection::WEST) ) return 4;
+	if(60 != inter.getLaneOffsetInFeet(JPIntersection::NORTH) ) return 5;
+	if(50 != inter.getLaneOffsetInFeet(JPIntersection::SOUTH) ) return 6;
+	if(40 != inter.getLaneOffsetInFeet(JPIntersection::EAST) ) return 7;
+	if(30 != inter.getLaneOffsetInFeet(JPIntersection::WEST) ) return 8;
+
+	//test individual offsets
+	inter.setLaneOffset(JPIntersection::NORTH, 2);
+	if(2 != inter.getLaneOffset(JPIntersection::NORTH) ) return 1;
+	inter.setLaneOffset(JPIntersection::NORTH, 6);
+
+	inter.setLaneOffset(JPIntersection::SOUTH, 2);
+	if(2 != inter.getLaneOffset(JPIntersection::SOUTH) ) return 1;
+	inter.setLaneOffset(JPIntersection::SOUTH, 6);
+
+	inter.setLaneOffset(JPIntersection::EAST, 2);
+	if(2 != inter.getLaneOffset(JPIntersection::EAST) ) return 1;
+	inter.setLaneOffset(JPIntersection::EAST, 6);
+
+	inter.setLaneOffset(JPIntersection::WEST, 2);
+	if(2 != inter.getLaneOffset(JPIntersection::WEST) ) return 1;
+	inter.setLaneOffset(JPIntersection::WEST, 6);
+
+	//test exit lengths
+	//defaults
+	if( 600 != inter.getTrackedExitLength(0) ) return 9;
+	if( 600 != inter.getTrackedExitLength(1) ) return 10;
+	//Manual settings
+	inter.setTrackedExitLengths(700, 800);
+	if( 700 != inter.getTrackedExitLength(0) ) return 11;
+	if( 800 != inter.getTrackedExitLength(1) ) return 12;
+
+	//lane lengths(multi)
+	inter.setTrackedLaneLengths(650,550,450,350); //ensure no overlap
+	if(650 != inter.getTrackedLaneLength(JPIntersection::NORTH) ) return 13;
+	if(550 != inter.getTrackedLaneLength(JPIntersection::SOUTH) ) return 14;
+	if(450 != inter.getTrackedLaneLength(JPIntersection::EAST) ) return 15;
+	if(350 != inter.getTrackedLaneLength(JPIntersection::WEST) ) return 16;
+
+	//lane lengths individual
+	inter.setTrackedLaneLength(JPIntersection::NORTH, 625);
+	inter.setTrackedLaneLength(JPIntersection::SOUTH, 525);
+	inter.setTrackedLaneLength(JPIntersection::EAST, 425);
+	inter.setTrackedLaneLength(JPIntersection::WEST, 325);
+	if(625 != inter.getTrackedLaneLength(JPIntersection::NORTH) ) return 17;
+	if(525 != inter.getTrackedLaneLength(JPIntersection::SOUTH) ) return 18;
+	if(425 != inter.getTrackedLaneLength(JPIntersection::EAST) ) return 19;
+	if(325 != inter.getTrackedLaneLength(JPIntersection::WEST) ) return 20;
+
+	//lane length min and max
+	inter.setTrackedLaneLength(JPIntersection::NORTH, 149);
+	inter.setTrackedLaneLength(JPIntersection::SOUTH, 1 + JPIntersection::MAX_LANE_LENG);
+	if(149 == inter.getTrackedLaneLength(JPIntersection::NORTH) ) return 21;
+	if(1 + JPIntersection::MAX_LANE_LENG == inter.getTrackedLaneLength(JPIntersection::SOUTH) ) return 22;
+
+	//speed limits defaults, then sets, then FPS
+	if(35 != inter.getSpeedLimits(JPIntersection::NORTH)) return 23;
+	if(35 != inter.getSpeedLimits(JPIntersection::EAST)) return 24;
+	inter.setSpeedLimits(36,37);
+	if(36 != inter.getSpeedLimits(JPIntersection::NORTH)) return 25;
+	if(37 != inter.getSpeedLimits(JPIntersection::EAST)) return 26;
+	if(36 != inter.getSpeedLimits(JPIntersection::SOUTH)) return 27;
+	if(37 != inter.getSpeedLimits(JPIntersection::WEST)) return 28;
+	if( ! consts::deq(36*5280.0/3600, inter.getSpeedLimitsInFPS(JPIntersection::NORTH)) ) return 29;
+
+	//printf("SOUTH:%f\n", inter.getSpeedLimits(JPIntersection::NORTH));
+	//printf("SOUTH:%f\n", inter.getLaneOffset(JPIntersection::SOUTH));
+
+	return 0;
 }
