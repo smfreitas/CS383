@@ -37,19 +37,19 @@
  *
  *	//add the individual lanes
  *	//addLane(int direction, int position, int turnOptions, int leftTarget, int rightTarget);
- *	intersection->addLane(Intersection::SOUTHBOUND, 0, Intersection::RIGHT + Intersection::STRAIGHT , 0, 0); //Lane in the first position can go either straight or right into the first westbound lane
- *	intersection->addLane(Intersection::SOUTHBOUND, 1, Intersection::STRAIGHT, 0, 0); //Lane in the second position can only go straight. Right and left targets will be ignored
- *	intersection->addLane(Intersection::SOUTHBOUND, 2, Intersection::LEFT, 1,0); // Lane only turns left and requires a signal. Left turns will enter the second eastbound lane
+ *	intersection->addLane(JPIntersection::SOUTHBOUND, 0, JPLane::RIGHT + JPLane::STRAIGHT , 0, 0); //Lane in the first position can go either straight or right into the first westbound lane
+ *	intersection->addLane(JPIntersection::SOUTHBOUND, 1, JPLane::STRAIGHT, 0, 0); //Lane in the second position can only go straight. Right and left targets will be ignored
+ *	intersection->addLane(JPIntersection::SOUTHBOUND, 2, JPLane::LEFT, 1,0); // Lane only turns left and requires a signal. Left turns will enter the second eastbound lane
  *
- *	intersection->addLane(Intersection::WESTBOUND, 0, Intersection::RIGHT + Intersection::STRAIGHT , 0, 0); //Lane in the first position can go either straight or right into the first northbound lane
- *	intersection->addLane(Intersection::WESTBOUND, 1, Intersection::LEFT, 1, 0); // Lane only turns left and requires a signal. Left turns will enter the second eastbound lane
+ *	intersection->addLane(JPIntersection::WESTBOUND, 0, JPLane::RIGHT + JPLane::STRAIGHT , 0, 0); //Lane in the first position can go either straight or right into the first northbound lane
+ *	intersection->addLane(JPIntersection::WESTBOUND, 1, JPLane::LEFT, 1, 0); // Lane only turns left and requires a signal. Left turns will enter the second eastbound lane
  *
- *	intersection->addLane(Intersection::NORTHBOUND, 0, Intersection::RIGHT + Intersection::STRAIGHT , 0, 0); //Lane in the first position can go either straight or right into the first eastbound lane
- *	intersection->addLane(Intersection::NORTHBOUND, 1, Intersection::STRAIGHT, 0, 0); //Lane in the second position can only go straight. Right and left targets will be ignored
- *	intersection->addLane(Intersection::NORTHBOUND, 2, Intersection::LEFT, 1,0); // Lane only turns left and requires a signal. Left turns will enter the second westbound lane
+ *	intersection->addLane(JPIntersection::NORTHBOUND, 0, JPLane::RIGHT + JPLane::STRAIGHT , 0, 0); //Lane in the first position can go either straight or right into the first eastbound lane
+ *	intersection->addLane(JPIntersection::NORTHBOUND, 1, JPLane::STRAIGHT, 0, 0); //Lane in the second position can only go straight. Right and left targets will be ignored
+ *	intersection->addLane(JPIntersection::NORTHBOUND, 2, JPLane::LEFT, 1,0); // Lane only turns left and requires a signal. Left turns will enter the second westbound lane
  *
-*	intersection->addLane(Intersection::EASTBOUND, 0, Intersection::RIGHT + Intersection::STRAIGHT , 0, 0); //Lane in the first position can go either straight or right into the first southbound lane
- *	intersection->addLane(Intersection::EASTBOUND, 1, Intersection::LEFT, 1, 0); // Lane only turns left and requires a signal. Left turns will enter the second westbound lane
+*	intersection->addLane(JPIntersection::EASTBOUND, 0, JPLane::RIGHT + JPLane::STRAIGHT , 0, 0); //Lane in the first position can go either straight or right into the first southbound lane
+ *	intersection->addLane(JPIntersection::EASTBOUND, 1, JPLane::LEFT, 1, 0); // Lane only turns left and requires a signal. Left turns will enter the second westbound lane
  * \endcode
  *
  * Usage: Accessing lanes.
@@ -98,56 +98,6 @@ public:
 	 *  \brief The maximum tracked length of
 	 */
 	static const int MAX_LANE_LENG = 2 * 5280;
-	/**
-		 * \brief Designates  a lane that permits going straight.
-		 *
-		 * Lane turn directions can be added. Initializing a lane with (JPIntersection::STRAIGHT + JPIntersection::RIGHT)
-		 * will allow cars in that lane to go either straight or right.
-		 */
-	static const int STRAIGHT = 1;
-
-		/**
-		 * \brief Designates a lane that permits right turns.
-		 *
-		 * Lane turn directions can be added. Initializing a lane with (JPIntersection::STRAIGHT + JPIntersection::RIGHT)
-		 * will allow cars in that lane to go either straight or right.
-		 */
-	static const int RIGHT = 2;
-
-	/**
-	 * \brief Designates a lane that permits left turns.
-	 *
-	 * Lane turn directions can be added. Initializing a lane with (JPIntersection::STRAIGHT + JPIntersection::RIGHT)
-	 * will allow cars in that lane to go either straight or right.
-	 */
-	static const int LEFT = 4;
-		/*
-		 * \brief Designates a lane that permits left turns without a left turn signal.
-		 *
-		 * Left turns have two distinct situations. The first is a left turn lane without an
-		 * explicit left turn signal. Here when the light is green, the driver waits for a break in
-		 * oncoming traffic before turning. The second situation is where the lane has an explicit
-		 * left turn signal either a three lamp with left arrows or a 5 lamp. This constant describes
-		 * first situation. It is mutually exclusive with JPIntersection::LEFT_ON_SIGNAL_ONLY.
-		 *
-		 * Lane turn directions can be added Initializing a lane with (JPIntersection::STRAIGHT + JPIntersection::RIGHT)
-		 * will allow cars in that lane to go either straight or right.
-		 */
-	//static const int LEFT_NO_SIGNAL = 4;
-
-		/*
-		 * \brief Left for lanes which may only turn left on a left arrow.
-		 *
-		 * Left turns have two distinct situations. The first is a left turn lane without an
-		 * explicit left turn signal. Here when the light is green, the driver waits for a break in
-		 * oncoming traffic before turning. The second situation is where the lane has an explicit
-		 * left turn signal either a three lamp with left arrows or a 5 lamp. This constant describes
-		 * second situation. It is mutually exclusive with JPIntersection::LEFT_NO_SIGNAL.
-		 *
-		 * Lane turn directions can be added Initializing a lane with (JPIntersection::STRAIGHT + JPIntersection::RIGHT)
-		 * will allow cars in that lane to go either straight or right.
-		 */
-	//static const int LEFT_ON_SIGNAL_ONLY = 8;
 
 		/**
 		 * \brief The north position.
@@ -241,7 +191,7 @@ public:
 	/**
 	 * \brief Return the offset of the lanes for the given direction.
 	 *
-	 * \param direction The direction as specified by Intersection::NORTH, Intersection::SOUTHBOUND, etc.
+	 * \param direction The direction as specified by JPIntersection::NORTH, JPIntersection::SOUTHBOUND, etc.
 	 * \return The offset in lanes for the given direction.
 	 */
 	double getLaneOffset(int direction);
@@ -249,7 +199,7 @@ public:
 	/**
 	 * \brief Return the offset of the lanes for the given direction.
 	 *
-	 * \param direction The direction as specified by Intersection::NORTH, Intersection::SOUTHBOUND, etc.
+	 * \param direction The direction as specified by JPIntersection::NORTH, JPIntersection::SOUTHBOUND, etc.
 	 * \return The offset in feet for the given direction.
 	 */
 	double getLaneOffsetInFeet(int direction);
@@ -265,7 +215,7 @@ public:
 	/**
 	 * \brief Return the number of lanes for the given direction.
 	 *
-	 * \param direction The direction as specified by Intersection::NORTH, Intersection::SOUTHBOUND, etc.
+	 * \param direction The direction as specified by JPIntersection::NORTH, JPIntersection::SOUTHBOUND, etc.
 	 */
 	int getLaneCount(int direction);
 
@@ -284,7 +234,7 @@ public:
 	/**
 	 * \brief Get the lane object corresponding to the specified direction and position.
 	 *
-	 * \param direction The direction as specified by Intersection::NORTH, Intersection::SOUTHBOUND, etc.
+	 * \param direction The direction as specified by JPIntersection::NORTH, JPIntersection::SOUTHBOUND, etc.
 	 * \param position The lane number from 0 to (getLaneCount(direction)-1)
 	 *
 	 * \return The lane object for the specified location.
@@ -307,5 +257,34 @@ private:
 	JPLane *_lanes[4][MAX_LANES_MACRO];
 
 };
+
+//old deprecated stuff that I designed away but may want later
+/*
+ * \brief Designates a lane that permits left turns without a left turn signal.
+ *
+ * Left turns have two distinct situations. The first is a left turn lane without an
+ * explicit left turn signal. Here when the light is green, the driver waits for a break in
+ * oncoming traffic before turning. The second situation is where the lane has an explicit
+ * left turn signal either a three lamp with left arrows or a 5 lamp. This constant describes
+ * first situation. It is mutually exclusive with JPIntersection::LEFT_ON_SIGNAL_ONLY.
+ *
+ * Lane turn directions can be added Initializing a lane with (JPIntersection::STRAIGHT + JPIntersection::RIGHT)
+ * will allow cars in that lane to go either straight or right.
+ */
+//static const int LEFT_NO_SIGNAL = 4;
+
+/*
+ * \brief Left for lanes which may only turn left on a left arrow.
+ *
+ * Left turns have two distinct situations. The first is a left turn lane without an
+ * explicit left turn signal. Here when the light is green, the driver waits for a break in
+ * oncoming traffic before turning. The second situation is where the lane has an explicit
+ * left turn signal either a three lamp with left arrows or a 5 lamp. This constant describes
+ * second situation. It is mutually exclusive with JPIntersection::LEFT_NO_SIGNAL.
+ *
+ * Lane turn directions can be added Initializing a lane with (JPIntersection::STRAIGHT + JPIntersection::RIGHT)
+ * will allow cars in that lane to go either straight or right.
+ */
+//static const int LEFT_ON_SIGNAL_ONLY = 8;
 
 #endif /* SRC_JAMES_JPINTERSECTION_H_ */

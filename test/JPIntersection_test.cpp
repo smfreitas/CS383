@@ -13,7 +13,6 @@
 //checks of constants
 int directionIterationCheck();
 int directionOppositeCheck();
-int laneDirectionBitFieldCheck();
 int directionAndBoundOppositeCheck();
 
 //error checks
@@ -43,10 +42,6 @@ int main()
 	ret = consts::testOuptut(
 			"JPIntersection: constants: Direction Opposite Check",
 			directionOppositeCheck());
-
-	ret = consts::testOuptut(
-			"JPIntersection: constants: Lane Direction Bit Field Check",
-			laneDirectionBitFieldCheck());
 
 	ret = consts::testOuptut(
 			"JPIntersection: constants: Direction And Bound Opposite Check",
@@ -201,35 +196,6 @@ int directionAndBoundOppositeCheck()
  * This check is performed for each successive
  * constant in the set, then that constant is added to the field.
  */
-int laneDirectionBitFieldCheck()
-{
-	int sumField = JPIntersection::STRAIGHT;
-
-	//check against right
-	if( ((sumField | JPIntersection::RIGHT) == sumField)&&
-			((sumField & JPIntersection::RIGHT) == 0))
-		return 1;
-	sumField += JPIntersection::RIGHT;
-
-
-	//check against left
-	if( ((sumField | JPIntersection::LEFT) == sumField) &&
-			((sumField & JPIntersection::LEFT) == 0))
-		return 1;
-/*
-	//check against LOSO
-	if( ((sumField | JPIntersection::LEFT_ON_SIGNAL_ONLY) == sumField) &&
-			((sumField & JPIntersection::LEFT_ON_SIGNAL_ONLY) == 0))
-		return 1;
-	sumField += JPIntersection::LEFT_ON_SIGNAL_ONLY;
-
-	//check against LNS
-	if( ((sumField | JPIntersection::LEFT_NO_SIGNAL) == sumField) &&
-			((sumField & JPIntersection::LEFT_NO_SIGNAL) == 0))
-		return 1;
-*/
-	return 0;
-}
 
 inline int addingAfterFinalizedCheck()
 {

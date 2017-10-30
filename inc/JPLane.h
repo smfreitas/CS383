@@ -5,12 +5,25 @@
  *      Author: james
  */
 
+#ifndef SRC_JAMES_JPLANE_H_
+#define SRC_JAMES_JPLANE_H_
+#include <stdexcept>
 //change this when I have a real class to work with
 #include "../src/james/SFCar.h"
 
+//using namespace::std;
+#include "../src/james/LinkedList.cpp"
 
-#ifndef SRC_JAMES_JPLANE_H_
-#define SRC_JAMES_JPLANE_H_
+/*
+namespace std
+{
+	class runtime_error;
+	template<typename  T>
+	class Iterator;
+	template<typename T>
+	class LinkedList;
+}
+*/
 
 /**
  * \brief A lane object that serves as an iterable container for cars.
@@ -37,6 +50,31 @@
 class JPLane
 {
 public:
+
+	/**
+	* \brief Designates  a lane that permits going straight.
+	*
+	* Lane turn directions can be added. Initializing a lane with (JPIntersection::STRAIGHT + JPIntersection::RIGHT)
+	* will allow cars in that lane to go either straight or right.
+	*/
+	static const int STRAIGHT = 1;
+
+	/**
+	 * \brief Designates a lane that permits right turns.
+	 *
+	 * Lane turn directions can be added. Initializing a lane with (JPIntersection::STRAIGHT + JPIntersection::RIGHT)
+	 * will allow cars in that lane to go either straight or right.
+	 */
+	static const int RIGHT = 2;
+
+	/**
+	 * \brief Designates a lane that permits left turns.
+	 *
+	 * Lane turn directions can be added. Initializing a lane with (JPIntersection::STRAIGHT + JPIntersection::RIGHT)
+	 * will allow cars in that lane to go either straight or right.
+	 */
+	static const int LEFT = 4;
+
 	/**
 	 * Create a lane with turnOptions
 	 */
@@ -48,7 +86,7 @@ public:
 	 * This will cause the getNextCar() method to restart at the beginning of the
 	 * lane. The next call to getNextCar() will return the first car.
 	 */
-	void resetToFirstCar();
+	int resetToFirstCar();
 
 	/**
 	 * \brief Returns the next car in the lane.
@@ -58,22 +96,6 @@ public:
 	 */
 	SFCar *getNextCar();
 
-	/*//dropping this
-	 * \brief Return the first car that might be renderable.
-	 *
-	 * This function returns the car marked by the flagCarAsFirstRendered() method
-	 * and sets the iterator to the next car following it.
-	 * It's aim is to prevent unnecsary iteration by skipping the cars in the
-	 * beginning region of the lane that is out of view of the visualization.
-	 *
-	 * The fact that the car is actually in a renderable region should not be
-	 * trusted and should be checked because:
-	 * -# The engine may flag early for example due to mismatched dimensions (i.e) 800x600
-	 * -# The engine may not flag at all in which case it will fall back to returning the first car in the lane.
-	 *
-	 * \return the first car that can be rendered or one shortly before the renderable region
-	 */
-	//SFCar *getFirstRenderedCar();
 
 	/**
 	 * \brief Remove the last car to be returned from the lane.
@@ -88,7 +110,7 @@ public:
 	 * This is when the first car has reached the tracked boundary and we no longer
 	 * care about it.
 	 */
-	void removeFirstCar();
+	SFCar *removeFirstCar();  //throw (std::runtime_error);
 
 	/**
 	 * \brief Add a car at specific physical position within the lane.
@@ -116,9 +138,23 @@ public:
 	//void flagCarAsFirstRendered();
 
 	virtual ~JPLane();
+	bool isEmpty() const;
+	int getSize() const;
+	//SFCar *removeFirst() throw (std::runtime_error);
+	void addLast(SFCar *car);
+
+
 
 private:
-	//_iterator
+	int _turnOptions;
+	int _leftTarget;
+	int _rightTarget;
+	//bool _firstFlag;
+	int _position;
+
+	LinkedList<SFCar*> *_list;
+	Iterator<SFCar*> *_iter;
+
 	//bool _renderFlagged; //dropping this
 };
 

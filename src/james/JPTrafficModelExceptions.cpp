@@ -12,7 +12,7 @@ JPTrafficModelException::JPTrafficModelException() {
 
 }
 
-JPTrafficModelException::~JPTrafficModelException() {
+JPTrafficModelException::~JPTrafficModelException() throw() {
 	// TODO Auto-generated destructor stub
 }
 

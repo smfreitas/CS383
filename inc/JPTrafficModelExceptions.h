@@ -13,8 +13,8 @@ class JPTrafficModelException: public std::exception
 {
 public:
 	JPTrafficModelException();
-	virtual ~JPTrafficModelException();
-	virtual const char* what() const throw();\
+	virtual ~JPTrafficModelException() throw();
+	virtual const char* what() const throw();
 };
 
 class JPDirectionOutOfBoundsException: public JPTrafficModelException
@@ -22,7 +22,7 @@ class JPDirectionOutOfBoundsException: public JPTrafficModelException
 public:
 	JPDirectionOutOfBoundsException();
 	virtual ~JPDirectionOutOfBoundsException() throw();
-	virtual const char* what() const throw();\
+	virtual const char* what() const throw();
 };
 
 class JPRateLessThanZeroException: public JPTrafficModelException
@@ -30,7 +30,7 @@ class JPRateLessThanZeroException: public JPTrafficModelException
 public:
 	JPRateLessThanZeroException();
 	virtual ~JPRateLessThanZeroException() throw();
-	virtual const char* what() const throw();\
+	virtual const char* what() const throw();
 };
 
 class JPProbabilityLessThanZeroException: public JPTrafficModelException
@@ -38,6 +38,6 @@ class JPProbabilityLessThanZeroException: public JPTrafficModelException
 public:
 	JPProbabilityLessThanZeroException();
 	virtual ~JPProbabilityLessThanZeroException() throw();
-	virtual const char* what() const throw();\
+	virtual const char* what() const throw();
 };
 #endif /* SRC_JAMES_JPTRAFFICMODELEXCEPTIONS_H_ */

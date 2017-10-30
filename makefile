@@ -78,11 +78,11 @@ JPCarTestStub.o: test/JPCarTestStub.cpp test/JPCarTestStub.h SFCar.o
 	$(CPP) $(CPPFLAGS) -c test/JPCarTestStub.cpp 
 
 #Lane
-JPLane.o: src/james/JPLane.cpp inc/JPConstants.h SFCar.o 
+JPLane.o: src/james/JPLane.cpp inc/JPLane.h inc/JPConstants.h SFCar.o src/james/LinkedList.cpp
 	$(CPP) $(CPPFLAGS) -c src/james/JPLane.cpp
 
 test/JPLane_test.exe: JPLane.o test/JPLane_test.cpp JPCarTestStub.o
-	$(CPP) $(CPPFLAGS) test/JPLane_test.cpp  JPLane.o JPCarTestStub.o SFCar.o $(LIBS) -o test/JPLane_test
+	$(CPP) $(CPPFLAGS)  JPLane.o JPCarTestStub.o SFCar.o test/JPLane_test.cpp $(LIBS) -o test/JPLane_test
 	
 JPLtest: test/JPLane_test.exe
 	test/JPLane_test.exe
